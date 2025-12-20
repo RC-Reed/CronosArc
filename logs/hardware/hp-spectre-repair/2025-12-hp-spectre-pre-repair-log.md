@@ -164,10 +164,3 @@ All steps will receive photos and documentation during the repair.
 
 ---
 
-# 📸 Photos To Add Later  
-
-**1. Current Exterior Condition**  
-```markdown
-![HP Spectre closed on desk](../images/hp-spectre-closed-before.jpg)
-```
-
