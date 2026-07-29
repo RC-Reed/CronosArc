@@ -25,8 +25,14 @@ waiting on someone else.
 ## Data storage
 
 Everything is stored in the browser's `localStorage` (no backend, no auth).
-Data lives per-browser — it does not sync across devices unless you deploy
-this once and use the same URL from each device.
+Data lives per-browser/per-device — deploying to one URL and opening it on
+both your phone and your laptop does **not** sync data between them, since
+`localStorage` never leaves the device it was written on.
+
+To move data between devices, use the **Export data** / **Import data**
+links in the header: export downloads a JSON snapshot of everything
+(tickets, approvals, todos), and import replaces the current device's data
+with a chosen snapshot after a confirmation prompt.
 
 ## Development
 

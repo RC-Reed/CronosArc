@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { ApprovalsView } from './components/ApprovalsView';
 import { DashboardView } from './components/DashboardView';
 import { TicketsView } from './components/TicketsView';
 import { TodosView } from './components/TodosView';
+import { buildExport, downloadExport, parseImport } from './dataTransfer';
 import { seedApprovals, seedTickets, seedTodos } from './seedData';
 import type { Approval, StandingTodo, Ticket } from './types';
 import { useLocalStorage } from './useLocalStorage';
@@ -24,6 +25,34 @@ function App() {
     seedApprovals(),
   );
   const [todos, setTodos] = useLocalStorage<StandingTodo[]>('ops-tracker/todos', seedTodos());
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleExport = () => {
+    downloadExport(buildExport(tickets, approvals, todos));
+  };
+
+  const handleImportClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleImportFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    try {
+      const text = await file.text();
+      const data = parseImport(text);
+      const confirmed = window.confirm(
+        `Import ${data.tickets.length} ticket(s), ${data.approvals.length} approval(s), and ${data.todos.length} todo(s)? This replaces everything currently on this device.`,
+      );
+      if (!confirmed) return;
+      setTickets(() => data.tickets);
+      setApprovals(() => data.approvals);
+      setTodos(() => data.todos);
+    } catch (err) {
+      window.alert(`Could not import file: ${(err as Error).message}`);
+    }
+  };
 
   return (
     <div className="app">
@@ -40,6 +69,21 @@ function App() {
             </button>
           ))}
         </nav>
+        <div className="data-toolbar">
+          <button className="link-btn" onClick={handleExport}>
+            Export data
+          </button>
+          <button className="link-btn" onClick={handleImportClick}>
+            Import data
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="application/json"
+            hidden
+            onChange={handleImportFile}
+          />
+        </div>
       </header>
 
       <main className="app-main">

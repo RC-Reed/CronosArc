@@ -103,6 +103,25 @@ h3 {
   border-bottom-color: var(--accent);
 }
 
+.data-toolbar {
+  display: flex;
+  gap: 12px;
+  padding: 6px 0 8px;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 12px;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.link-btn:hover {
+  color: var(--accent);
+}
+
 .app-main {
   flex: 1;
   padding: 16px;
