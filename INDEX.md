@@ -12,6 +12,8 @@ These are the projects and logs that reflect hands-on progress.
 
 - [Side Projects](side-projects/)  
   (Device repairs, rebuilds, misc engineering work)
+- [Ops Tracker](ops-tracker/)  
+  (Personal tracker for tickets, pending approvals, and standing todos)
 
 ---
 
